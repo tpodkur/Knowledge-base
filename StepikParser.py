@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from TypesService import TypesService
 import time
 
 
@@ -11,6 +12,7 @@ class StepikParser:
 
     def __init__(self):
         self.driver = None
+        self.types_service = TypesService()
 
     def run(self):
         self.driver = webdriver.Chrome()
@@ -46,7 +48,7 @@ class StepikParser:
             list_items = course_set.find_elements_by_class_name('st-filter__item')
             for list_item in list_items:
                 link_element = list_item.find_element_by_class_name('st-filter__link')
-                link = self.form_link(link_element.get_attribute("href"), link_element.text)
+                link = self.types_service.form_link(link_element.get_attribute("href"), link_element.text)
                 course_sets_links.append(link)
         return course_sets_links
 
@@ -63,7 +65,7 @@ class StepikParser:
         for li_item in li_items:
             link_tag = li_item.find_element_by_class_name('ember-link')
             # link = link_tag.get_attribute('href')
-            link = self.form_link(link_tag.get_attribute('href'), section_name)
+            link = self.types_service.form_link(link_tag.get_attribute('href'), section_name)
             courses.append(link)
         return courses
 
@@ -77,7 +79,7 @@ class StepikParser:
         cost = self.driver.find_element_by_class_name('course-promo-enrollment__price')
         cost = 0 if (cost.text == 'Бесплатно') else int(cost)
         rating = self.driver.find_element_by_class_name('course-promo-summary__average').text
-        return self.form_course(title, description, cost, float(rating))
+        return self.types_service.form_course(title, description, cost, float(rating))
 
     # void
     def scroll_page_down(self):
@@ -89,19 +91,3 @@ class StepikParser:
             if new_height == last_height:
                 break
             last_height = new_height
-
-    # return object {'href': , 'section': }
-    def form_link(self, href: str, section_name: str):
-        return {
-            'href': href,
-            'section': section_name
-        }
-
-    # return object { 'title': , 'description': , 'cost': }
-    def form_course(self, title: str, description: str, cost: int, rating: float):
-        return {
-            'title': title,
-            'description': description,
-            'cost': cost,
-            'rating': rating
-        }
