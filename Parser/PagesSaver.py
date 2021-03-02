@@ -1,30 +1,35 @@
-import string
 from lxml import html
 import requests
+import string
+from DatabaseServices.CoursesService1 import CoursesService
 
 
 class PagesSaver:
     url: str = "https://online.edu.ru/public/courses?faces-redirect=true&pid=2919"
-    SCROLL_PAUSE_TIME = 5
+    service: CoursesService
 
     def __init__(self):
-        self.driver = None
+        self.service = CoursesService()
 
     def run(self):
-        pageNumber = 1
-        url = "https://online.edu.ru/public/courses?faces-redirect=true&pid=2919"
+        i = 0
         platform = "Stepik"
-        page = requests.get(url + "&page=" + str(pageNumber))
-        tree = html.fromstring(page.content)
+        root = html.parse("CoursesPages/" + platform + "/course" + str(i) + ".html").getroot()
+        courseName = root.find_class("course-name")
+        courseCategory = root.get_element_by_id("j_idt136")
+        courseLink = root.get_element_by_id("j_idt84:j_idt85")
+        courseDescription = root.get_element_by_id("course-view-about")
+        courseContent = root.get_element_by_id("j_idt131")
+        courseSphere = root.get_element_by_id("j_idt141")
 
-        root = html.parse("CoursesListPages/Stepik/page0.html").getroot()
-        elements = root.find_class("card course-card")
-        for element in elements:
-            print(element[1][0][0].get('href'))
 
-        fileToWrite = open("CoursesListPages/" + str(platform) + "/page" + str(pageNumber) + ".html", "w")
-        # fileToWrite.write(tree)
-        fileToWrite.close()
+        print(courseName[0].text)
+        print(courseCategory.text)
+        print(courseLink.get("onclick"))
+        # print(courseDescription)
+        print(courseContent.text)
+        print(courseSphere.text)
+
 
     def loadCoursesListPages(self, url: string, platform: string):
         for pageNumber in range(20):
@@ -48,3 +53,27 @@ class PagesSaver:
             # fileToWrite.writelines(links)
             fileToWrite.write(links)
             fileToWrite.close()
+
+    def loadCoursesPages(self, url: string, platform: string):
+        fileToRead = open("CoursesLinks/" + platform + ".txt", 'r')
+        links: [string] = fileToRead.read().splitlines()
+        for i in range(len(links)):
+            page = requests.get(url + links[i])
+            fileToWrite = open("CoursesPages/" + platform + "/course" + str(i) + ".html", "w")
+            fileToWrite.write(page.text)
+            fileToWrite.close()
+
+        self.service.insertCoursesCount(platform, len(links))
+
+    def parseCourseInformation(self, platform: string):
+        coursesCount = self.service.getCoursesCount(platform)
+
+        for i in range(coursesCount):
+            root = html.parse("CoursesPages/" + platform + "/course" + str(i) + ".html").getroot()
+            courseName = root.find_class("course-name")
+            courseCategory = root.get_element_by_id("j_idt136")
+            courseLink = root.get_element_by_id("j_idt84:j_idt85")
+#           courseDescription = root.get_element_by_id("course-view-about")
+            courseContent = root.get_element_by_id("j_idt131")
+            courseSphere = root.get_element_by_id("j_idt141")
+
