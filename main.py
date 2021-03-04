@@ -1,5 +1,7 @@
-from Parser.PagesSaver import PagesSaver
-from Migrations.CoursesMigrations import CoursesMigrations
+from migrations.CoursesMigrations import CoursesMigrations
+from modules.parser.PagesSaverComponent import PagesSaverComponent
+from modules.parser.ParserComponent import ParserComponent
+import configparser
 
 
 def migrate():
@@ -7,27 +9,24 @@ def migrate():
     m.coursesTable()
 
 if __name__ == '__main__':
+    config = configparser.ConfigParser()
+    config.read("settings.ini")
 
-    baseUrl = "https://online.edu.ru"
-    stepikCoursesUrl = "/public/courses?faces-redirect=true&pid=2919"
-    courseraCoursesUrl = "/public/courses?faces-redirect=true&pid=11042928"
-    openEdu = "/public/courses?faces-redirect=true&pid=3114"
+    baseUrl = config["urls"]["aggregatorUrl"]
+    stepikCoursesUrl = config["urls"]["stepikCourses"]
+    courseraCoursesUrl = config["urls"]["courseraCourses"]
+    openEduCoursesUrl = config["urls"]["openEduCourses"]
+
+    stepik = config["platforms"]["stepik"]
+    coursera = config["platforms"]["coursera"]
+    openEdu = config["platforms"]["openEdu"]
 
     # migrate()
 
-    saver = PagesSaver()
-    # saver.loadCoursesListPages(baseUrl + stepikCoursesUrl, "Stepik")
-    # saver.loadCoursesListPages(baseUrl + courseraCoursesUrl, "Coursera")
-    # saver.loadCoursesListPages(baseUrl + openEdu, "OpenEdu")
+    saver = PagesSaverComponent()
+    parser = ParserComponent()
 
-    saver.run()
-
-    # saver.getCoursesLinksFromPages("Stepik")
-    # saver.getCoursesLinksFromPages("Coursera")
-    # saver.getCoursesLinksFromPages("OpenEdu")
-
-    # saver.loadCoursesPages(baseUrl, "Stepik")
-    # saver.loadCoursesPages(baseUrl, "Coursera")
-    # saver.loadCoursesPages(baseUrl, "OpenEdu")
-
-    # saver.parseCourseInformation("Stepik")
+    # saver.loadCoursesListPages(baseUrl + stepikCoursesUrl, stepik)
+    # parser.getCoursesLinksFromPages(stepik)
+    # saver.loadCoursesPages(baseUrl, stepik)
+    parser.getCourseInformation(stepik)
