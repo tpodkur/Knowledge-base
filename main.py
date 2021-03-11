@@ -1,4 +1,6 @@
 from migrations.CoursesMigrations import CoursesMigrations
+from migrations.InitializationMigrations import InitializationMigrations
+from migrations.CleanMigrations import CleanMigrations
 from modules.parser.PagesSaverComponent import PagesSaverComponent
 from modules.parser.ParserComponent import ParserComponent
 import configparser
@@ -6,7 +8,17 @@ import configparser
 
 def migrate():
     m = CoursesMigrations()
+    # m.educationSpheresTable()
+    # m.categoriesGroupsTable()
+    # m.categoriesTable()
     m.coursesTable()
+
+    # k = InitializationMigrations()
+    # k.insertCategoriesGroups()
+    # k.insertEducationSpheres()
+
+    # t = CleanMigrations()
+    # t.coursesTable()
 
 if __name__ == '__main__':
     config = configparser.ConfigParser()
@@ -29,4 +41,4 @@ if __name__ == '__main__':
     # saver.loadCoursesListPages(baseUrl + stepikCoursesUrl, stepik)
     # parser.getCoursesLinksFromPages(stepik)
     # saver.loadCoursesPages(baseUrl, stepik)
-    parser.getCourseInformation(stepik)
+    parser.completeCourseInformation(stepik)

@@ -30,24 +30,46 @@ class CoursesMigrations:
         )
         self.connection.commit()
 
-    # def categoriesTable(self):
-    #     self.cursor.execute(
-    #         "CREATE TABLE category ("
-    #         "id              SERIAL PRIMARY KEY,"
-    #         "name            VARCHAR(100) NOT NULL,"
-    #         "number          VARCHAR(100) NOT NULL);"
-    #     )
-    #     self.connection.commit()
-
     def coursesTable(self):
         self.cursor.execute(
             "CREATE TABLE course ("
             "id              SERIAL PRIMARY KEY,"
-            "name            VARCHAR(100) NOT NULL,"
-            "platform        VARCHAR(100) NOT NULL,"
+            "name            VARCHAR(255) NOT NULL,"
+            "category_id     BIGINT,"
+            "platform        VARCHAR(255) NOT NULL,"
             "link            VARCHAR(255) NOT NULL,"
             "description     TEXT,"
             "content         TEXT,"
-            "sphere         VARCHAR(100));"
+            "sphere         VARCHAR(255),"
+            "FOREIGN KEY (category_id) REFERENCES category (id));"
+        )
+        self.connection.commit()
+
+    def categoriesTable(self):
+        self.cursor.execute(
+            "CREATE TABLE category ("
+            "id                  SERIAL PRIMARY KEY,"
+            "name                VARCHAR(100) NOT NULL,"
+            "okso_number         BIGINT NOT NULL,"
+            "okso_group_number  BIGINT NOT NULL);"
+        )
+        self.connection.commit()
+
+    def categoriesGroupsTable(self):
+        self.cursor.execute(
+            "CREATE TABLE categories_group ("
+            "id                  SERIAL PRIMARY KEY,"
+            "name                VARCHAR(100) NOT NULL,"
+            "okso_number         BIGINT NOT NULL,"
+            "okso_sphere_number  BIGINT NOT NULL);"
+        )
+        self.connection.commit()
+
+    def educationSpheresTable(self):
+        self.cursor.execute(
+            "CREATE TABLE education_sphere ("
+            "id                  SERIAL PRIMARY KEY,"
+            "name                VARCHAR(100) NOT NULL,"
+            "okso_number         BIGINT NOT NULL);"
         )
         self.connection.commit()

@@ -38,4 +38,19 @@ class ParserService:
         res = self.cursor.fetchall()
         return res[0][0]
 
-    # def insertCoursesInformation(self, name: string, category: string, description: string, content: string):
+    def insertCourseInformation(
+            self,
+            name: string,
+            category: string,
+            platform: string,
+            link: string,
+            description: string,
+            content: string,
+            sphere: string
+    ):
+        self.cursor.execute(
+            "INSERT INTO course (name, platform, link, description, content, sphere) "
+            "VALUES (%s, %s, %s, %s, %s, %s);",
+            (name, platform, link, description, content, sphere)
+        )
+        self.connection.commit()

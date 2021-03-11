@@ -23,7 +23,7 @@ class ParserComponent:
             fileToWrite.write("%s" % links)
             fileToWrite.close()
 
-    def getCourseInformation(self, platform: string):
+    def completeCourseInformation(self, platform: string):
         fileWithCoursesLinks = open("pages/courses-links/" + platform + ".txt", 'r')
         links: [string] = fileWithCoursesLinks.read().splitlines()
 
@@ -40,9 +40,26 @@ class ParserComponent:
                 courseCategory = html.Element("div")
                 courseCategory.text = ""
 
-            print(courseName[0].text_content())
-            print(courseCategory.text_content())
-            print(courseLink.get("onclick"))
+            # print(courseName[0].text_content())
+            # print(str(courseCategory.text_content().split()))
+            # print(courseLink.get("onclick"))
             # print(courseDescription[1].text_content())
-            print(courseContent.text_content())
-            print(courseSphere.text_content())
+            # print(courseContent.text_content())
+            # print(courseSphere.text_content())
+
+            if i == 86:
+                print("pages/courses-pages/" + platform + "/course" + str(i) + ".html")
+                print(courseLink.get("onclick"))
+
+            cName = courseName[0].text_content().lower()
+            cCategory = ''
+            cPlatform = platform
+            cLink = self.prepareCourseLink(courseLink.get("onclick"))
+            cDescription = ''
+            cContent = courseContent.text_content().lower()
+            cSphere = courseSphere.text_content().lower()
+
+            # self.service.insertCourseInformation(cName, cCategory, cPlatform, cLink, cDescription, cContent, cSphere)
+
+    def prepareCourseLink(self, link: string):
+        return link.removeprefix("window.open('").removesuffix("','_self')").replace("\/", "/")
