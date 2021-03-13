@@ -35,13 +35,12 @@ class CoursesMigrations:
             "CREATE TABLE course ("
             "id              SERIAL PRIMARY KEY,"
             "name            VARCHAR(255) NOT NULL,"
-            "category_id     BIGINT,"
+            "categories      TEXT,"
             "platform        VARCHAR(255) NOT NULL,"
-            "link            VARCHAR(255) NOT NULL,"
+            "link            VARCHAR(255) NOT NULL UNIQUE,"
             "description     TEXT,"
             "content         TEXT,"
-            "sphere         VARCHAR(255),"
-            "FOREIGN KEY (category_id) REFERENCES category (id));"
+            "sphere          VARCHAR(255));"
         )
         self.connection.commit()
 
@@ -51,7 +50,7 @@ class CoursesMigrations:
             "id                  SERIAL PRIMARY KEY,"
             "name                VARCHAR(100) NOT NULL,"
             "okso_number         BIGINT NOT NULL,"
-            "okso_group_number  BIGINT NOT NULL);"
+            "okso_group_number   BIGINT NOT NULL);"
         )
         self.connection.commit()
 
@@ -71,5 +70,16 @@ class CoursesMigrations:
             "id                  SERIAL PRIMARY KEY,"
             "name                VARCHAR(100) NOT NULL,"
             "okso_number         BIGINT NOT NULL);"
+        )
+        self.connection.commit()
+
+    def courseCategoryRelation(self):
+        self.cursor.execute(
+            "CREATE TABLE course_category_relation ("
+            "id                  SERIAL PRIMARY KEY,"
+            "course_id           BIGINT NOT NULL,"
+            "category_id         BIGINT NOT NULL)"
+            "FOREIGN KEY (course_id) REFERENCES course (id));"
+            "FOREIGN KEY (category_id) REFERENCES category (id));"
         )
         self.connection.commit()
