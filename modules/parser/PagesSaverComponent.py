@@ -17,7 +17,7 @@ class PagesSaverComponent:
             fileToWrite.close()
 
     def loadCoursesPages(self, url: string, platform: string):
-        fileToRead = open("pages/courses-links/" + platform + ".txt", 'r')
+        fileToRead = open("pages/courses-links/" + platform + ".txt", "r")
         links: [string] = fileToRead.read().splitlines()
         for i in range(len(links)):
             page = requests.get(url + links[i])

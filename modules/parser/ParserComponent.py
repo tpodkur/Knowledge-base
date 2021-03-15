@@ -5,7 +5,6 @@ import string
 
 
 class ParserComponent:
-    url: str = "https://online.edu.ru/public/courses?faces-redirect=true&pid=2919"
     service: ParserService
 
     def __init__(self):
