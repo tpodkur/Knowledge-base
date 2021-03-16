@@ -1,13 +1,13 @@
-from modules.parser.ParserService import ParserService
+from modules.parser.ClassificationService import ClassificationService
 from lxml import html
 import string
 
 
 class ClassifikationParserComponent:
-    service: ParserService
+    service: ClassificationService
 
     def __init__(self):
-        self.service = ParserService()
+        self.service = ClassificationService()
 
     def getSecondLevelLinksFromPage(self):
         root = html.parse("pages/classification/first-level/first-level.html").getroot()
@@ -39,7 +39,8 @@ class ClassifikationParserComponent:
         grnt_list = root.find_class("grnt_list")
 
         for listItem in grnt_list[0]:
-            print(str(listItem[0].text_content()).encode('latin1').decode('utf-8').lower())
+            category = self.prepareFirstLevelName(str(listItem[0].text_content()).encode('latin1').decode('utf-8').lower())
+            self.service.insertFirstLevelCategory(category["name"], category["grnti_number"])
 
 
     def getSecondLevelNamesFromPage(self):
@@ -61,3 +62,10 @@ class ClassifikationParserComponent:
 
             for listItem in grnt_list[0]:
                 print(str(listItem[0].text_content()).encode('latin1').decode('utf-8').lower())
+
+    def prepareFirstLevelName(self, categoryName: string):
+        arr = categoryName.split()
+        return {
+            "grnti_number": int(arr[0]),
+            "name": categoryName[3:]
+        }

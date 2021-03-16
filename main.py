@@ -1,4 +1,5 @@
 from migrations.CoursesMigrations import CoursesMigrations
+from migrations.ClassificationMigrations import ClassificationMigrations
 from migrations.InitializationMigrations import InitializationMigrations
 from migrations.CleanMigrations import CleanMigrations
 from modules.parser.PagesSaverComponent import PagesSaverComponent
@@ -13,7 +14,12 @@ def migrate():
     # m.educationSpheresTable()
     # m.categoriesGroupsTable()
     # m.categoriesTable()
-    m.coursesTable()
+    # m.coursesTable()
+
+    l = ClassificationMigrations()
+    l.firstLevelClassificationTable()
+    l.secondLevelClassificationTable()
+    l.thirdLevelClassificationTable()
 
     # k = InitializationMigrations()
     # k.insertCategoriesGroups()
@@ -34,8 +40,6 @@ def courses(config):
     coursera = config["platforms"]["coursera"]
     openEdu = config["platforms"]["openEdu"]
 
-    # migrate()
-
     saver = PagesSaverComponent()
     parser = ParserComponent()
 
@@ -53,8 +57,10 @@ if __name__ == '__main__':
     classifikationSaver = ClassificationSaverComponent()
     classifikationParser = ClassifikationParserComponent()
 
+    # migrate()
+
     # classifikationSaver.loadClassificationFirstLevel(classificationUrl)
-    # classifikationParser.getFirstLevelNamesFromPage()
+    classifikationParser.getFirstLevelNamesFromPage()
     # classifikationParser.getSecondLevelLinksFromPage()
 
     # classifikationSaver.loadClassificationSecondLevels(classificationUrl)

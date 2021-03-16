@@ -19,8 +19,8 @@ class ParserService:
         self.cursor = self.connection.cursor()
 
     def __del__(self):
-        self.connection.close()
         self.cursor.close()
+        self.connection.close()
 
     def insertCoursesCount(self, platform: string, count: int):
         self.cursor.execute(
