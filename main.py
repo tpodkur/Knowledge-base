@@ -4,7 +4,7 @@ from migrations.CleanMigrations import CleanMigrations
 from modules.parser.PagesSaverComponent import PagesSaverComponent
 from modules.parser.ParserComponent import ParserComponent
 from modules.parser.ClassificationSaverComponent import ClassificationSaverComponent
-from modules.parser.ClassificationParserComponent import ClassifivationParserComponent
+from modules.parser.ClassificationParserComponent import ClassifikationParserComponent
 import configparser
 
 
@@ -50,13 +50,16 @@ if __name__ == '__main__':
 
     classificationUrl = config["urls"]["classification"]
 
-    classifivationSaver = ClassificationSaverComponent()
-    classifivationParser = ClassifivationParserComponent()
+    classifikationSaver = ClassificationSaverComponent()
+    classifikationParser = ClassifikationParserComponent()
 
-    # classifivationSaver.loadClassificationFirstLevel(classificationUrl)
-    # classifivationParser.getSecondLevelLinksFromPage()
-    # classifivationSaver.loadClassificationLevel(2, classificationUrl)
-    classifivationParser.getSecondLevelLinksFromPage()
+    # classifikationSaver.loadClassificationFirstLevel(classificationUrl)
+    # classifikationParser.getFirstLevelNamesFromPage()
+    # classifikationParser.getSecondLevelLinksFromPage()
 
+    # classifikationSaver.loadClassificationSecondLevels(classificationUrl)
+    # classifikationParser.getSecondLevelNamesFromPage()
+    # classifikationParser.getThirdLevelLinksFromPage()
 
-
+    # classifikationSaver.loadClassificationThirdLevels(classificationUrl)
+    # classifikationParser.getThirdLevelNamesFromPage()

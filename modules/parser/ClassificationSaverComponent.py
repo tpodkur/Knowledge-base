@@ -5,10 +5,6 @@ import string
 
 class ClassificationSaverComponent:
     service: ParserService
-    nestingLevel = {
-        2: "second",
-        3: "third"
-    }
 
     def __init__(self):
         self.service = ParserService()
@@ -19,12 +15,20 @@ class ClassificationSaverComponent:
         fileToWrite.write(page.text)
         fileToWrite.close()
 
-    def loadClassificationLevel(self, nestingLevel: int, baseUrl: string):
-        level = self.nestingLevel[nestingLevel]
-        fileToRead = open("pages/classification/" + level + "-level/links.txt", "r")
+    def loadClassificationSecondLevels(self, baseUrl: string):
+        fileToRead = open("pages/classification/second-level/links.txt", "r")
         links: [string] = fileToRead.read().splitlines()
         for i in range(len(links)):
             page = requests.get(baseUrl + links[i])
-            fileToWrite = open("pages/classification/" + level + "-level/" + level + "-level" + str(i) + ".html", "w")
+            fileToWrite = open("pages/classification/second-level/second-level" + str(i) + ".html", "w")
+            fileToWrite.write(page.text)
+            fileToWrite.close()
+
+    def loadClassificationThirdLevels(self, baseUrl: string):
+        fileToRead = open("pages/classification/third-level/links.txt", "r")
+        links: [string] = fileToRead.read().splitlines()
+        for i in range(len(links)):
+            page = requests.get(baseUrl + links[i])
+            fileToWrite = open("pages/classification/third-level/third-level" + str(i) + ".html", "w")
             fileToWrite.write(page.text)
             fileToWrite.close()
