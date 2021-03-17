@@ -51,7 +51,9 @@ class ClassifikationParserComponent:
             grnt_list = root.find_class("grnt_list")
 
             for listItem in grnt_list[0]:
-                print(str(listItem[0].text_content()).encode('latin1').decode('utf-8').lower())
+                category = self.prepareSecondLevelName(
+                    str(listItem[0].text_content()).encode('latin1').decode('utf-8').lower())
+                self.service.insertSecondLevelCategory(category["name"], category["grnti_number"], category["parent_grnti_number"])
 
     def getThirdLevelNamesFromPage(self):
         fileToRead = open("pages/classification/third-level/links.txt", "r")
@@ -61,11 +63,37 @@ class ClassifikationParserComponent:
             grnt_list = root.find_class("grnt_list")
 
             for listItem in grnt_list[0]:
-                print(str(listItem[0].text_content()).encode('latin1').decode('utf-8').lower())
+                category = self.prepareThirdLevelName(
+                    str(listItem[0].text_content()).encode('latin1').decode('utf-8').lower())
+                self.service.insertThirdLevelCategory(
+                    category["name"],
+                    category["grnti_number"],
+                    category["parent_grnti_number"],
+                    category["parent_parent_grnti_number"]
+                )
 
     def prepareFirstLevelName(self, categoryName: string):
         arr = categoryName.split()
         return {
             "grnti_number": int(arr[0]),
             "name": categoryName[3:]
+        }
+
+    def prepareSecondLevelName(self, categoryName: string):
+        arr = categoryName.split()
+        grntiCode = arr[0].split(".")
+        return {
+            "parent_grnti_number": int(grntiCode[0]),
+            "grnti_number": int(grntiCode[1]),
+            "name": categoryName[6:]
+        }
+
+    def prepareThirdLevelName(self, categoryName: string):
+        arr = categoryName.split()
+        grntiCode = arr[0].split(".")
+        return {
+            "parent_parent_grnti_number": int(grntiCode[0]),
+            "parent_grnti_number": int(grntiCode[1]),
+            "grnti_number": int(grntiCode[2]),
+            "name": categoryName[9:]
         }

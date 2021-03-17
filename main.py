@@ -10,27 +10,28 @@ import configparser
 
 
 def migrate():
-    m = CoursesMigrations()
+    # m = CoursesMigrations()
     # m.educationSpheresTable()
     # m.categoriesGroupsTable()
     # m.categoriesTable()
     # m.coursesTable()
 
-    l = ClassificationMigrations()
-    l.firstLevelClassificationTable()
-    l.secondLevelClassificationTable()
-    l.thirdLevelClassificationTable()
+    # l = ClassificationMigrations()
+    # l.firstLevelClassificationTable()
+    # l.secondLevelClassificationTable()
+    # l.thirdLevelClassificationTable()
 
     # k = InitializationMigrations()
     # k.insertCategoriesGroups()
     # k.insertEducationSpheres()
 
-    # t = CleanMigrations()
+    t = CleanMigrations()
     # t.coursesTable()
+    # t.classificationFirstLevelTable()
+    t.classificationSecondLevelTable()
+    # t.classificationThirdLevelTable()
 
 def courses(config):
-
-
     baseUrl = config["urls"]["aggregatorUrl"]
     stepikCoursesUrl = config["urls"]["stepikCourses"]
     courseraCoursesUrl = config["urls"]["courseraCourses"]
@@ -60,12 +61,12 @@ if __name__ == '__main__':
     # migrate()
 
     # classifikationSaver.loadClassificationFirstLevel(classificationUrl)
-    classifikationParser.getFirstLevelNamesFromPage()
-    # classifikationParser.getSecondLevelLinksFromPage()
+    # classifikationParser.getFirstLevelNamesFromPage()
 
+    # classifikationParser.getSecondLevelLinksFromPage()
     # classifikationSaver.loadClassificationSecondLevels(classificationUrl)
     # classifikationParser.getSecondLevelNamesFromPage()
-    # classifikationParser.getThirdLevelLinksFromPage()
 
+    # classifikationParser.getThirdLevelLinksFromPage()
     # classifikationSaver.loadClassificationThirdLevels(classificationUrl)
     # classifikationParser.getThirdLevelNamesFromPage()

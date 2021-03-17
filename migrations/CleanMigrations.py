@@ -26,3 +26,21 @@ class CleanMigrations:
             "TRUNCATE TABLE course;"
         )
         self.connection.commit()
+
+    def classificationFirstLevelTable(self):
+        self.cursor.execute(
+            "TRUNCATE TABLE classification_first_level;"
+        )
+        self.connection.commit()
+
+    def classificationSecondLevelTable(self):
+        self.cursor.execute(
+            "TRUNCATE TABLE classification_second_level;"
+        )
+        self.connection.commit()
+
+    def classificationThirdLevelTable(self):
+        self.cursor.execute(
+            "TRUNCATE TABLE classification_third_level;"
+        )
+        self.connection.commit()

@@ -23,25 +23,35 @@ class ClassificationService:
         self.connection.close()
 
     def insertFirstLevelCategory(self, name: string, grnti_number: int):
-        self.cursor.execute(
-            "INSERT INTO classification_first_level (name, grnti_number) "
-            "VALUES (%s, %s);",
-            (name, grnti_number)
-        )
-        self.connection.commit()
+        try:
+            self.cursor.execute(
+                "INSERT INTO classification_first_level (name, grnti_number) "
+                "VALUES (%s, %s);",
+                (name, grnti_number)
+            )
+            self.connection.commit()
+        except psycopg2.errors.UniqueViolation:
+            self.connection.commit()
 
     def insertSecondLevelCategory(self, name: string, grnti_number: int, parent_grnti_number: int):
-        self.cursor.execute(
-            "INSERT INTO classification_first_level (name, grnti_number, parent_grnti_number) "
-            "VALUES (%s, %s, %s);",
-            (name, grnti_number, parent_grnti_number)
-        )
-        self.connection.commit()
+        try:
+            self.cursor.execute(
+                "INSERT INTO classification_second_level (name, grnti_number, parent_grnti_number) "
+                "VALUES (%s, %s, %s);",
+                (name, grnti_number, parent_grnti_number)
+            )
+            self.connection.commit()
+        except psycopg2.errors.UniqueViolation:
+            self.connection.commit()
 
-    def insertSecondLevelCategory(self, name: string, grnti_number: int, parent_grnti_number: int, parent_parent_grnti_number: int):
-        self.cursor.execute(
-            "INSERT INTO classification_first_level (name, grnti_number, parent_grnti_number, parent_parent_grnti_number) "
-            "VALUES (%s, %s, %s);",
-            (name, grnti_number, parent_grnti_number, parent_parent_grnti_number)
-        )
-        self.connection.commit()
+
+    def insertThirdLevelCategory(self, name: string, grnti_number: int, parent_grnti_number: int, parent_parent_grnti_number: int):
+        try:
+            self.cursor.execute(
+                "INSERT INTO classification_third_level (name, grnti_number, parent_grnti_number, parent_parent_grnti_number) "
+                "VALUES (%s, %s, %s, %s);",
+                (name, grnti_number, parent_grnti_number, parent_parent_grnti_number)
+            )
+            self.connection.commit()
+        except psycopg2.errors.UniqueViolation:
+            self.connection.commit()

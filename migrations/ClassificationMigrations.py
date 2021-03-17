@@ -26,7 +26,7 @@ class ClassificationMigrations:
             "CREATE TABLE classification_first_level ("
             "id              SERIAL PRIMARY KEY,"
             "name            TEXT NOT NULL,"
-            "grnti_number    BIGINT NOT NULL);"
+            "grnti_number    BIGINT NOT NULL UNIQUE);"
         )
         self.connection.commit()
 
@@ -36,7 +36,8 @@ class ClassificationMigrations:
             "id                   SERIAL PRIMARY KEY,"
             "name                 TEXT NOT NULL,"
             "grnti_number         BIGINT NOT NULL,"
-            "parent_grnti_number  BIGINT NOT NULL);"
+            "parent_grnti_number  BIGINT NOT NULL,"
+            "UNIQUE(grnti_number, parent_grnti_number));"
         )
         self.connection.commit()
 
@@ -47,6 +48,7 @@ class ClassificationMigrations:
             "name                        TEXT NOT NULL,"
             "grnti_number                BIGINT NOT NULL,"
             "parent_grnti_number         BIGINT NOT NULL,"
-            "parent_parent_grnti_number  BIGINT NOT NULL);"
+            "parent_parent_grnti_number  BIGINT NOT NULL,"
+            "UNIQUE(grnti_number, parent_grnti_number, parent_parent_grnti_number));"
         )
         self.connection.commit()
