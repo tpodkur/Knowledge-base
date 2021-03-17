@@ -1,4 +1,4 @@
-from modules.parser.ParserService import ParserService
+from modules.parser.services.ParserService import ParserService
 import requests
 import string
 

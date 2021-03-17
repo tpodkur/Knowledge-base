@@ -1,11 +1,8 @@
-from migrations.CoursesMigrations import CoursesMigrations
-from migrations.ClassificationMigrations import ClassificationMigrations
-from migrations.InitializationMigrations import InitializationMigrations
 from migrations.CleanMigrations import CleanMigrations
-from modules.parser.PagesSaverComponent import PagesSaverComponent
-from modules.parser.ParserComponent import ParserComponent
-from modules.parser.ClassificationSaverComponent import ClassificationSaverComponent
-from modules.parser.ClassificationParserComponent import ClassifikationParserComponent
+from modules.parser.components.courses.PagesSaverComponent import PagesSaverComponent
+from modules.parser.components.courses.ParserComponent import ParserComponent
+from modules.parser.components.classification.ClassificationSaverComponent import ClassificationSaverComponent
+from modules.parser.components.classification.ClassificationParserComponent import ClassifikationParserComponent
 import configparser
 
 

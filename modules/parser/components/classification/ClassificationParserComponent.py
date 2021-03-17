@@ -1,4 +1,4 @@
-from modules.parser.ClassificationService import ClassificationService
+from modules.parser.services.ClassificationService import ClassificationService
 from lxml import html
 import string
 

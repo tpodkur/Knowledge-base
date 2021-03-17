@@ -1,4 +1,4 @@
-from modules.parser.ParserService import ParserService
+from modules.parser.services.ParserService import ParserService
 from lxml import html
 from bs4 import BeautifulSoup
 import string
