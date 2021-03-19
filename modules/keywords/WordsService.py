@@ -21,3 +21,19 @@ class WordsService:
     def __del__(self):
         self.cursor.close()
         self.connection.close()
+
+    def getAllCourses(self):
+        self.cursor.execute(
+            "SELECT * FROM course;"
+        )
+        return self.cursor.fetchall()
+
+    def insertKeywordsForCourses(self, keywords: string, id: int):
+        print(keywords)
+        self.cursor.execute(
+            "UPDATE course "
+            "SET keywords = %s "
+            "WHERE id = %s;",
+            (keywords, id)
+        )
+        self.connection.commit()

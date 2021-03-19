@@ -40,7 +40,8 @@ class CoursesMigrations:
             "link            VARCHAR(255) NOT NULL UNIQUE,"
             "description     TEXT,"
             "content         TEXT,"
-            "sphere          VARCHAR(255));"
+            "sphere          VARCHAR(255),"
+            "keywords        TEXT);"
         )
         self.connection.commit()
 

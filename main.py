@@ -1,18 +1,20 @@
 from migrations.CleanMigrations import CleanMigrations
+from migrations.CoursesMigrations import CoursesMigrations
 from modules.parser.components.courses.PagesSaverComponent import PagesSaverComponent
 from modules.parser.components.courses.ParserComponent import ParserComponent
 from modules.parser.components.classification.ClassificationSaverComponent import ClassificationSaverComponent
 from modules.parser.components.classification.ClassificationParserComponent import ClassifikationParserComponent
 from modules.keywords.WordsComponent import WordsComponent
+from modules.keywords.WordsService import WordsService
 import configparser
 
 
 def migrate():
-    # m = CoursesMigrations()
+    m = CoursesMigrations()
     # m.educationSpheresTable()
     # m.categoriesGroupsTable()
     # m.categoriesTable()
-    # m.coursesTable()
+    m.coursesTable()
 
     # l = ClassificationMigrations()
     # l.firstLevelClassificationTable()
@@ -26,7 +28,7 @@ def migrate():
     t = CleanMigrations()
     # t.coursesTable()
     # t.classificationFirstLevelTable()
-    t.classificationSecondLevelTable()
+    # t.classificationSecondLevelTable()
     # t.classificationThirdLevelTable()
 
 def courses(config):
@@ -71,5 +73,4 @@ if __name__ == '__main__':
     config.read("settings.ini")
 
     wordsComponent = WordsComponent()
-    wordsComponent.getKeywords('за два месяца, на которые рассчитан курс, слушатели ознакомятся с некоторыми разделами дискретной математики. это линейная алгебра, комбинаторика, теория графов и дискретная вероятность. курс является очень вводным, базовым. он приоткроет дверь в прекрасный и удивительный мир дискретной математики, для более подробного знакомства с которым вам возможно потребуется более серьезные курсы. курс предназначен для школьников, которые хотят стать программистами, поступить на программистские кафедры и понять, какую математику им там предстоит изучать. а еще для тех, кто хочет поступить в магистратуру, или бакалавриат спбау, или в computer science центр. таким людям курс поможет успешно пройти собеседование.')
-    # wordsComponent.getDescriptor('программныe')
+    wordsComponent.extractKeywordsForCourses()
