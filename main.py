@@ -3,6 +3,7 @@ from modules.parser.components.courses.PagesSaverComponent import PagesSaverComp
 from modules.parser.components.courses.ParserComponent import ParserComponent
 from modules.parser.components.classification.ClassificationSaverComponent import ClassificationSaverComponent
 from modules.parser.components.classification.ClassificationParserComponent import ClassifikationParserComponent
+from modules.keywords.WordsComponent import WordsComponent
 import configparser
 
 
@@ -46,10 +47,7 @@ def courses(config):
     # saver.loadCoursesPages(baseUrl, stepik)
     parser.completeCourseInformation(stepik)
 
-if __name__ == '__main__':
-    config = configparser.ConfigParser()
-    config.read("settings.ini")
-
+def parseClassification(config):
     classificationUrl = config["urls"]["classification"]
 
     classifikationSaver = ClassificationSaverComponent()
@@ -67,3 +65,11 @@ if __name__ == '__main__':
     # classifikationParser.getThirdLevelLinksFromPage()
     # classifikationSaver.loadClassificationThirdLevels(classificationUrl)
     # classifikationParser.getThirdLevelNamesFromPage()
+
+if __name__ == '__main__':
+    config = configparser.ConfigParser()
+    config.read("settings.ini")
+
+    wordsComponent = WordsComponent()
+    wordsComponent.getKeywords('за два месяца, на которые рассчитан курс, слушатели ознакомятся с некоторыми разделами дискретной математики. это линейная алгебра, комбинаторика, теория графов и дискретная вероятность. курс является очень вводным, базовым. он приоткроет дверь в прекрасный и удивительный мир дискретной математики, для более подробного знакомства с которым вам возможно потребуется более серьезные курсы. курс предназначен для школьников, которые хотят стать программистами, поступить на программистские кафедры и понять, какую математику им там предстоит изучать. а еще для тех, кто хочет поступить в магистратуру, или бакалавриат спбау, или в computer science центр. таким людям курс поможет успешно пройти собеседование.')
+    # wordsComponent.getDescriptor('программныe')
