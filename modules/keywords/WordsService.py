@@ -28,7 +28,7 @@ class WordsService:
         )
         return self.cursor.fetchall()
 
-    def insertKeywordsForCourses(self, keywords: string, id: int):
+    def insertKeywordsToCourse(self, keywords: string, id: int):
         print(keywords)
         self.cursor.execute(
             "UPDATE course "
@@ -37,3 +37,22 @@ class WordsService:
             (keywords, id)
         )
         self.connection.commit()
+
+    def completeKeywordsFromCourses(self):
+        courses = self.getAllCourses()
+
+        for course in courses:
+            keywords = course[8]
+            keywords = keywords.split(',')
+
+            for word in keywords:
+                try:
+                    self.cursor.execute(
+                        "INSERT INTO keyword (name) "
+                        "VALUES (%s);",
+                        (word, )
+                    )
+                    self.connection.commit()
+                except psycopg2.errors.UniqueViolation:
+                    self.connection.commit()
+                    continue

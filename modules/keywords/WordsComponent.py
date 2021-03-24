@@ -56,7 +56,7 @@ class WordsComponent:
             keywords = self.deleteRepeatedWords(nameKeywords + descriptionKeywords + contentKeywords + sphereKeywords)
 
             keywordsStr = ','.join(keywords)
-            self.service.insertKeywordsForCourses(keywordsStr, course[0])
+            self.service.insertKeywordsToCourse(keywordsStr, course[0])
 
     def deleteInvalidWords(self, wordsArray: [string]):
         for word in self.otherInvalidWords:

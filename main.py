@@ -1,5 +1,6 @@
 from migrations.CleanMigrations import CleanMigrations
 from migrations.CoursesMigrations import CoursesMigrations
+from migrations.WordsMigrations import WordsMigrations
 from modules.parser.components.courses.PagesSaverComponent import PagesSaverComponent
 from modules.parser.components.courses.ParserComponent import ParserComponent
 from modules.parser.components.classification.ClassificationSaverComponent import ClassificationSaverComponent
@@ -10,11 +11,11 @@ import configparser
 
 
 def migrate():
-    m = CoursesMigrations()
+    # m = CoursesMigrations()
     # m.educationSpheresTable()
     # m.categoriesGroupsTable()
     # m.categoriesTable()
-    m.coursesTable()
+    # m.coursesTable()
 
     # l = ClassificationMigrations()
     # l.firstLevelClassificationTable()
@@ -24,6 +25,9 @@ def migrate():
     # k = InitializationMigrations()
     # k.insertCategoriesGroups()
     # k.insertEducationSpheres()
+
+    g = WordsMigrations()
+    g.keywordsTable()
 
     t = CleanMigrations()
     # t.coursesTable()
@@ -73,4 +77,10 @@ if __name__ == '__main__':
     config.read("settings.ini")
 
     wordsComponent = WordsComponent()
-    wordsComponent.extractKeywordsForCourses()
+    wordsService = WordsService()
+
+    # wordsComponent.extractKeywordsForCourses()
+
+    wordsService.completeKeywordsFromCourses()
+
+
