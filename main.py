@@ -90,6 +90,7 @@ if __name__ == '__main__':
 
     # wordsComponent.extractKeywordsForSecondLevelCategories()
     # wordsComponent.completeKeywordsFromSecondLevelCategories()
-    wordsComponent.completeFrequencyForCategoriesKeywords()
+    # wordsComponent.completeFrequencyForCategoriesKeywords()
+    wordsComponent.findKeywordsIntersection()
 
 

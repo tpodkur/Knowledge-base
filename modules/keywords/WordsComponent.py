@@ -136,3 +136,22 @@ class WordsComponent:
 
     def deleteRepeatedWords(self, array):
         return list(dict.fromkeys(array))
+
+    def findKeywordsIntersection(self):
+        categoriesKeywords = self.service.getAllCategoriesKeywords()
+        coursesKeywords = self.service.getAllCoursesKeywords()
+
+        coursesKeywordsArr = []
+        for word in coursesKeywords:
+            coursesKeywordsArr.append(word[1])
+
+        categoriesKeywordsArr = []
+        for word in categoriesKeywords:
+            categoriesKeywordsArr.append(word[1])
+
+        intersection = list(set(coursesKeywordsArr) & set(categoriesKeywordsArr))
+        keywords = self.deleteRepeatedWords(coursesKeywordsArr + categoriesKeywordsArr)
+        print(len(coursesKeywordsArr))
+        print(len(categoriesKeywordsArr))
+        print(len(keywords))
+        print(len(intersection))
