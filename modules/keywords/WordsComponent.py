@@ -52,17 +52,20 @@ class WordsComponent:
             keywords = self.deleteRepeatedWords(nameKeywords + descriptionKeywords + contentKeywords + sphereKeywords)
 
             keywordsStr = ','.join(keywords)
-            self.service.insertKeywordsToCourse(keywordsStr, course[0])
+            self.service.updateCourseKeywords(keywordsStr, course[0])
 
     def completeKeywordsFromCourses(self):
         courses = self.service.getAllCourses()
 
+        allKeywords = []
         for course in courses:
             keywords = course[8]
             keywords = keywords.split(',')
+            allKeywords = allKeywords + keywords
 
-            for word in keywords:
-                self.service.insertKeyword(word)
+        uniqueKeywords = self.deleteRepeatedWords(allKeywords)
+        for word in uniqueKeywords:
+            self.service.insertKeyword(word)
 
     def completeKeywordsFrequency(self):
         keywords = self.service.getAllKeywords()

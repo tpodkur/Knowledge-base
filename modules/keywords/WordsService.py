@@ -34,7 +34,7 @@ class WordsService:
         )
         return self.cursor.fetchall()
 
-    def insertKeywordsToCourse(self, keywords: string, courseId: int):
+    def updateCourseKeywords(self, keywords: string, courseId: int):
         self.cursor.execute(
             "UPDATE course "
             "SET keywords = %s "
