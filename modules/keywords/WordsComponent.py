@@ -92,14 +92,21 @@ class WordsComponent:
         for word in uniqueKeywords:
             self.service.insertCategoryKeyword(word)
 
-    def completeKeywordsFrequency(self):
+    def completeFrequencyForCoursesKeywords(self):
         keywords = self.service.getAllCoursesKeywords()
 
         for keyword in keywords:
-            frequency = self.calculateWordFrequencyOfOccurrence(keyword[1])
+            frequency = self.calculateFrequencyOfOccurrenceForCoursesWord(keyword[1])
             self.service.updateCoursesKeywordFrequency(frequency, keyword[0])
 
-    def calculateWordFrequencyOfOccurrence(self, word: string):
+    def completeFrequencyForCategoriesKeywords(self):
+        keywords = self.service.getAllCategoriesKeywords()
+
+        for keyword in keywords:
+            frequency = self.calculateFrequencyOfOccurrenceForCategoriesWord(keyword[1])
+            self.service.updateCategoriesKeywordFrequency(frequency, keyword[0])
+
+    def calculateFrequencyOfOccurrenceForCoursesWord(self, word: string):
         courses = self.service.getAllCourses()
         counter = 0
         for course in courses:
@@ -108,6 +115,14 @@ class WordsComponent:
                 counter = counter + 1
         return counter
 
+    def calculateFrequencyOfOccurrenceForCategoriesWord(self, word: string):
+        categories = self.service.getAllSecondLevelCategories()
+        counter = 0
+        for category in categories:
+            keywords = category[4]
+            if (keywords.find(word) != -1):
+                counter = counter + 1
+        return counter
 
     def deleteInvalidWords(self, wordsArray: [string]):
         for word in self.otherInvalidWords + self.pronouns:

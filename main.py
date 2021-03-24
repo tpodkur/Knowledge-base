@@ -84,11 +84,12 @@ if __name__ == '__main__':
 
     # wordsComponent.extractKeywordsForCourses()
     # wordsComponent.completeKeywordsFromCourses()
-    # wordsComponent.completeKeywordsFrequency()
+    # wordsComponent.completeFrequencyForCoursesKeywords()
 
     # migrate()
 
     # wordsComponent.extractKeywordsForSecondLevelCategories()
-    wordsComponent.completeKeywordsFromSecondLevelCategories()
+    # wordsComponent.completeKeywordsFromSecondLevelCategories()
+    wordsComponent.completeFrequencyForCategoriesKeywords()
 
 

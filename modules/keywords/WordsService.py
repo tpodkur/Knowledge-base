@@ -34,6 +34,12 @@ class WordsService:
         )
         return self.cursor.fetchall()
 
+    def getAllCategoriesKeywords(self):
+        self.cursor.execute(
+            "SELECT * FROM categories_keyword;"
+        )
+        return self.cursor.fetchall()
+
     def getAllSecondLevelCategories(self):
         self.cursor.execute(
             "SELECT * FROM classification_second_level;"
@@ -91,6 +97,15 @@ class WordsService:
     def updateCoursesKeywordFrequency(self, frequency: int, keywordId: int):
         self.cursor.execute(
             "UPDATE courses_keyword "       
+            "SET frequency = %s "   
+            "WHERE id = %s;",
+            (frequency, keywordId)
+        )
+        self.connection.commit()
+
+    def updateCategoriesKeywordFrequency(self, frequency: int, keywordId: int):
+        self.cursor.execute(
+            "UPDATE categories_keyword "       
             "SET frequency = %s "   
             "WHERE id = %s;",
             (frequency, keywordId)
