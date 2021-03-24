@@ -28,31 +28,37 @@ class WordsService:
         )
         return self.cursor.fetchall()
 
-    def insertKeywordsToCourse(self, keywords: string, id: int):
-        print(keywords)
+    def getAllKeywords(self):
+        self.cursor.execute(
+            "SELECT * FROM keyword;"
+        )
+        return self.cursor.fetchall()
+
+    def insertKeywordsToCourse(self, keywords: string, courseId: int):
         self.cursor.execute(
             "UPDATE course "
             "SET keywords = %s "
             "WHERE id = %s;",
-            (keywords, id)
+            (keywords, courseId)
         )
         self.connection.commit()
 
-    def completeKeywordsFromCourses(self):
-        courses = self.getAllCourses()
+    def insertKeyword(self, word):
+        try:
+            self.cursor.execute(
+                "INSERT INTO keyword (name) "
+                "VALUES (%s);",
+                (word, )
+            )
+            self.connection.commit()
+        except psycopg2.errors.UniqueViolation:
+            self.connection.commit()
 
-        for course in courses:
-            keywords = course[8]
-            keywords = keywords.split(',')
-
-            for word in keywords:
-                try:
-                    self.cursor.execute(
-                        "INSERT INTO keyword (name) "
-                        "VALUES (%s);",
-                        (word, )
-                    )
-                    self.connection.commit()
-                except psycopg2.errors.UniqueViolation:
-                    self.connection.commit()
-                    continue
+    def updateKeywordFrequency(self, frequency: int, keywordId: int):
+        self.cursor.execute(
+            "UPDATE keyword "       
+            "SET frequency = %s "   
+            "WHERE id = %s;",
+            (frequency, keywordId)
+        )
+        self.connection.commit()

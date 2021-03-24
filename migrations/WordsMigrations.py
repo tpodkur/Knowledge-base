@@ -25,6 +25,7 @@ class WordsMigrations:
         self.cursor.execute(
             "CREATE TABLE keyword ("
             "id              SERIAL PRIMARY KEY,"
-            "name            TEXT NOT NULL UNIQUE);"
+            "name            TEXT NOT NULL UNIQUE,"
+            "frequency       BIGINT);"
         )
         self.connection.commit()

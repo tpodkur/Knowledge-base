@@ -54,6 +54,33 @@ class WordsComponent:
             keywordsStr = ','.join(keywords)
             self.service.insertKeywordsToCourse(keywordsStr, course[0])
 
+    def completeKeywordsFromCourses(self):
+        courses = self.service.getAllCourses()
+
+        for course in courses:
+            keywords = course[8]
+            keywords = keywords.split(',')
+
+            for word in keywords:
+                self.service.insertKeyword(word)
+
+    def completeKeywordsFrequency(self):
+        keywords = self.service.getAllKeywords()
+
+        for keyword in keywords:
+            frequency = self.calculateWordFrequencyOfOccurrence(keyword[1])
+            self.service.updateKeywordFrequency(frequency, keyword[0])
+
+    def calculateWordFrequencyOfOccurrence(self, word: string):
+        courses = self.service.getAllCourses()
+        counter = 0
+        for course in courses:
+            keywords = course[8]
+            if (keywords.find(word) != -1):
+                counter = counter + 1
+        return counter
+
+
     def deleteInvalidWords(self, wordsArray: [string]):
         for word in self.otherInvalidWords + self.pronouns:
             if word in wordsArray:
