@@ -65,14 +65,39 @@ class WordsComponent:
 
         uniqueKeywords = self.deleteRepeatedWords(allKeywords)
         for word in uniqueKeywords:
-            self.service.insertKeyword(word)
+            self.service.insertCourseKeyword(word)
+
+    def extractKeywordsForSecondLevelCategories(self):
+        secondLevelCategories = self.service.getAllSecondLevelCategories()
+        for category in secondLevelCategories:
+            thirdLevelCategories = self.service.getThirdLevelCategoriesByParent(category[2])
+
+            keywords = []
+            for subcategory in thirdLevelCategories:
+                keywords = keywords + self.getKeywords(subcategory[1])
+            keywords = self.deleteRepeatedWords(keywords)
+            keywordsStr = ','.join(keywords)
+            self.service.updateSecondLevelCategoryKeywords(keywordsStr, category[0])
+
+    def completeKeywordsFromSecondLevelCategories(self):
+        secondLevelCategories = self.service.getAllSecondLevelCategories()
+
+        allKeywords = []
+        for category in secondLevelCategories:
+            keywords = category[4]
+            keywords = keywords.split(',')
+            allKeywords = allKeywords + keywords
+
+        uniqueKeywords = self.deleteRepeatedWords(allKeywords)
+        for word in uniqueKeywords:
+            self.service.insertCategoryKeyword(word)
 
     def completeKeywordsFrequency(self):
-        keywords = self.service.getAllKeywords()
+        keywords = self.service.getAllCoursesKeywords()
 
         for keyword in keywords:
             frequency = self.calculateWordFrequencyOfOccurrence(keyword[1])
-            self.service.updateKeywordFrequency(frequency, keyword[0])
+            self.service.updateCoursesKeywordFrequency(frequency, keyword[0])
 
     def calculateWordFrequencyOfOccurrence(self, word: string):
         courses = self.service.getAllCourses()

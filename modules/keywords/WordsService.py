@@ -28,9 +28,23 @@ class WordsService:
         )
         return self.cursor.fetchall()
 
-    def getAllKeywords(self):
+    def getAllCoursesKeywords(self):
         self.cursor.execute(
-            "SELECT * FROM keyword;"
+            "SELECT * FROM courses_keyword;"
+        )
+        return self.cursor.fetchall()
+
+    def getAllSecondLevelCategories(self):
+        self.cursor.execute(
+            "SELECT * FROM classification_second_level;"
+        )
+        return self.cursor.fetchall()
+
+    def getThirdLevelCategoriesByParent(self, parentNumber: int):
+        self.cursor.execute(
+            "SELECT * "
+            "FROM classification_third_level "
+            "WHERE parent_grnti_number = %s", (parentNumber,)
         )
         return self.cursor.fetchall()
 
@@ -43,10 +57,19 @@ class WordsService:
         )
         self.connection.commit()
 
-    def insertKeyword(self, word):
+    def updateSecondLevelCategoryKeywords(self, keywords: string, categoryId: int):
+        self.cursor.execute(
+            "UPDATE classification_second_level "
+            "SET keywords = %s "
+            "WHERE id = %s;",
+            (keywords, categoryId)
+        )
+        self.connection.commit()
+
+    def insertCourseKeyword(self, word):
         try:
             self.cursor.execute(
-                "INSERT INTO keyword (name) "
+                "INSERT INTO courses_keyword (name) "
                 "VALUES (%s);",
                 (word, )
             )
@@ -54,9 +77,20 @@ class WordsService:
         except psycopg2.errors.UniqueViolation:
             self.connection.commit()
 
-    def updateKeywordFrequency(self, frequency: int, keywordId: int):
+    def insertCategoryKeyword(self, word):
+        try:
+            self.cursor.execute(
+                "INSERT INTO categories_keyword (name) "
+                "VALUES (%s);",
+                (word, )
+            )
+            self.connection.commit()
+        except psycopg2.errors.UniqueViolation:
+            self.connection.commit()
+
+    def updateCoursesKeywordFrequency(self, frequency: int, keywordId: int):
         self.cursor.execute(
-            "UPDATE keyword "       
+            "UPDATE courses_keyword "       
             "SET frequency = %s "   
             "WHERE id = %s;",
             (frequency, keywordId)

@@ -3,7 +3,7 @@ from lxml import html
 import string
 
 
-class ClassifikationParserComponent:
+class ClassificationParserComponent:
     service: ClassificationService
 
     def __init__(self):

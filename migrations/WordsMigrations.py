@@ -21,9 +21,18 @@ class WordsMigrations:
         self.cursor.close()
         self.connection.close()
 
-    def keywordsTable(self):
+    def courseKeywordsTable(self):
         self.cursor.execute(
-            "CREATE TABLE keyword ("
+            "CREATE TABLE courses_keyword ("
+            "id              SERIAL PRIMARY KEY,"
+            "name            TEXT NOT NULL UNIQUE,"
+            "frequency       BIGINT);"
+        )
+        self.connection.commit()
+
+    def categoriesKeywordsTable(self):
+        self.cursor.execute(
+            "CREATE TABLE categories_keyword ("
             "id              SERIAL PRIMARY KEY,"
             "name            TEXT NOT NULL UNIQUE,"
             "frequency       BIGINT);"

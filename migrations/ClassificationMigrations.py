@@ -37,6 +37,7 @@ class ClassificationMigrations:
             "name                 TEXT NOT NULL,"
             "grnti_number         BIGINT NOT NULL,"
             "parent_grnti_number  BIGINT NOT NULL,"
+            "keywords             TEXT,"
             "UNIQUE(grnti_number, parent_grnti_number));"
         )
         self.connection.commit()

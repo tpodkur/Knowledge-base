@@ -1,10 +1,11 @@
 from migrations.CleanMigrations import CleanMigrations
 from migrations.CoursesMigrations import CoursesMigrations
+from migrations.ClassificationMigrations import ClassificationMigrations
 from migrations.WordsMigrations import WordsMigrations
 from modules.parser.components.courses.PagesSaverComponent import PagesSaverComponent
 from modules.parser.components.courses.ParserComponent import ParserComponent
 from modules.parser.components.classification.ClassificationSaverComponent import ClassificationSaverComponent
-from modules.parser.components.classification.ClassificationParserComponent import ClassifikationParserComponent
+from modules.parser.components.classification.ClassificationParserComponent import ClassificationParserComponent
 from modules.keywords.WordsComponent import WordsComponent
 from modules.keywords.WordsService import WordsService
 import configparser
@@ -27,7 +28,8 @@ def migrate():
     # k.insertEducationSpheres()
 
     g = WordsMigrations()
-    g.keywordsTable()
+    # g.courseKeywordsTable()
+    g.categoriesKeywordsTable()
 
     # t = CleanMigrations()
     # t.coursesTable()
@@ -57,21 +59,21 @@ def courses(config):
 def parseClassification(config):
     classificationUrl = config["urls"]["classification"]
 
-    classifikationSaver = ClassificationSaverComponent()
-    classifikationParser = ClassifikationParserComponent()
+    classificationSaver = ClassificationSaverComponent()
+    classificationParser = ClassificationParserComponent()
 
-    # migrate()
+    migrate()
 
-    # classifikationSaver.loadClassificationFirstLevel(classificationUrl)
-    # classifikationParser.getFirstLevelNamesFromPage()
+    # classificationSaver.loadClassificationFirstLevel(classificationUrl)
+    # classificationParser.getFirstLevelNamesFromPage()
 
-    # classifikationParser.getSecondLevelLinksFromPage()
-    # classifikationSaver.loadClassificationSecondLevels(classificationUrl)
-    # classifikationParser.getSecondLevelNamesFromPage()
+    # classificationParser.getSecondLevelLinksFromPage()
+    # classificationSaver.loadClassificationSecondLevels(classificationUrl)
+    classificationParser.getSecondLevelNamesFromPage()
 
-    # classifikationParser.getThirdLevelLinksFromPage()
-    # classifikationSaver.loadClassificationThirdLevels(classificationUrl)
-    # classifikationParser.getThirdLevelNamesFromPage()
+    # classificationParser.getThirdLevelLinksFromPage()
+    # classificationSaver.loadClassificationThirdLevels(classificationUrl)
+    # classificationParser.getThirdLevelNamesFromPage()
 
 if __name__ == '__main__':
     config = configparser.ConfigParser()
@@ -80,8 +82,13 @@ if __name__ == '__main__':
     wordsComponent = WordsComponent()
     wordsService = WordsService()
 
-    wordsComponent.extractKeywordsForCourses()
+    # wordsComponent.extractKeywordsForCourses()
     # wordsComponent.completeKeywordsFromCourses()
-    wordsComponent.completeKeywordsFrequency()
+    # wordsComponent.completeKeywordsFrequency()
+
+    # migrate()
+
+    # wordsComponent.extractKeywordsForSecondLevelCategories()
+    wordsComponent.completeKeywordsFromSecondLevelCategories()
 
 
