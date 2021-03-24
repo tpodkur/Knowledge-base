@@ -44,3 +44,9 @@ class CleanMigrations:
             "TRUNCATE TABLE classification_third_level;"
         )
         self.connection.commit()
+
+    def keywordsTable(self):
+        self.cursor.execute(
+            "TRUNCATE TABLE keyword;"
+        )
+        self.connection.commit()

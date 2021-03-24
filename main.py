@@ -26,14 +26,15 @@ def migrate():
     # k.insertCategoriesGroups()
     # k.insertEducationSpheres()
 
-    g = WordsMigrations()
-    g.keywordsTable()
+    # g = WordsMigrations()
+    # g.keywordsTable()
 
     t = CleanMigrations()
     # t.coursesTable()
     # t.classificationFirstLevelTable()
     # t.classificationSecondLevelTable()
     # t.classificationThirdLevelTable()
+    t.keywordsTable()
 
 def courses(config):
     baseUrl = config["urls"]["aggregatorUrl"]
@@ -79,8 +80,8 @@ if __name__ == '__main__':
     wordsComponent = WordsComponent()
     wordsService = WordsService()
 
-    # wordsComponent.extractKeywordsForCourses()
-
+    wordsComponent.extractKeywordsForCourses()
+    migrate()
     wordsService.completeKeywordsFromCourses()
 
 

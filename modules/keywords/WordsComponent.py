@@ -11,23 +11,19 @@ class WordsComponent:
         conjunctionsFile = open("modules/keywords/invalid-words/conjunctions.txt", 'r')
         particlesFile = open("modules/keywords/invalid-words/particles.txt", 'r')
         prepositionsFile = open("modules/keywords/invalid-words/prepositions.txt", 'r')
+        pronounsFile = open("modules/keywords/invalid-words/pronouns.txt", 'r')
         otherInvalidWordsFile = open("modules/keywords/invalid-words/other-invalid-words.txt", 'r')
 
         self.conjunctions: [string] = conjunctionsFile.read().splitlines()
         self.particles: [string] = particlesFile.read().splitlines()
         self.prepositions: [string] = prepositionsFile.read().splitlines()
+        self.pronouns: [string] = pronounsFile.read().splitlines()
         self.otherInvalidWords: [string] = otherInvalidWordsFile.read().splitlines()
 
         self.morph = pymorphy2.MorphAnalyzer()
         self.service = WordsService()
 
     def getKeywords(self, text: string):
-        # invalidWords = self.conjunctions + self.particles + self.prepositions
-        # invalidWords.sort(key=len)
-        # invalidWords.reverse()
-        # for word in invalidWords:
-        #     text = text.replace(' ' + word + ' ', ' ')
-
         pattern = r'\w+'
         words = re.findall(pattern, text)
 
@@ -59,7 +55,7 @@ class WordsComponent:
             self.service.insertKeywordsToCourse(keywordsStr, course[0])
 
     def deleteInvalidWords(self, wordsArray: [string]):
-        for word in self.otherInvalidWords:
+        for word in self.otherInvalidWords + self.pronouns:
             if word in wordsArray:
                 wordsArray.remove(word)
         return wordsArray
