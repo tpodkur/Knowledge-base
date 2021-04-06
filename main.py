@@ -8,6 +8,8 @@ from modules.parser.components.classification.ClassificationSaverComponent impor
 from modules.parser.components.classification.ClassificationParserComponent import ClassificationParserComponent
 from modules.keywords.WordsComponent import WordsComponent
 from modules.keywords.WordsService import WordsService
+from modules.classification.ClassificationComponent import ClassificationComponent
+from modules.classification.ClassificationService import ClassificationService
 import configparser
 
 
@@ -22,21 +24,23 @@ def migrate():
     # l.firstLevelClassificationTable()
     # l.secondLevelClassificationTable()
     # l.thirdLevelClassificationTable()
+    # l.courseSecondLevelRelation()
 
     # k = InitializationMigrations()
     # k.insertCategoriesGroups()
     # k.insertEducationSpheres()
 
-    g = WordsMigrations()
+    # g = WordsMigrations()
     # g.courseKeywordsTable()
-    g.categoriesKeywordsTable()
+    # g.categoriesKeywordsTable()
 
-    # t = CleanMigrations()
+    t = CleanMigrations()
     # t.coursesTable()
     # t.classificationFirstLevelTable()
     # t.classificationSecondLevelTable()
     # t.classificationThirdLevelTable()
     # t.keywordsTable()
+    t.courseSecondLevelRelationTable()
 
 def courses(config):
     baseUrl = config["urls"]["aggregatorUrl"]
@@ -75,10 +79,7 @@ def parseClassification(config):
     # classificationSaver.loadClassificationThirdLevels(classificationUrl)
     # classificationParser.getThirdLevelNamesFromPage()
 
-if __name__ == '__main__':
-    config = configparser.ConfigParser()
-    config.read("settings.ini")
-
+def assignKeywords(config):
     wordsComponent = WordsComponent()
     wordsService = WordsService()
 
@@ -86,11 +87,28 @@ if __name__ == '__main__':
     # wordsComponent.completeKeywordsFromCourses()
     # wordsComponent.completeFrequencyForCoursesKeywords()
 
-    # migrate()
-
     # wordsComponent.extractKeywordsForSecondLevelCategories()
     # wordsComponent.completeKeywordsFromSecondLevelCategories()
     # wordsComponent.completeFrequencyForCategoriesKeywords()
+
     wordsComponent.findKeywordsIntersection()
+
+if __name__ == '__main__':
+    config = configparser.ConfigParser()
+    config.read("settings.ini")
+
+    classificationComponent = ClassificationComponent()
+    classificationService = ClassificationService()
+
+    # migrate()
+
+    # classificationComponent.buildСlassification()
+    classificationComponent.showClassificationResult()
+
+    # num = 4.559
+    # r_num = round(num, 2)
+    # print(r_num)
+
+
 
 

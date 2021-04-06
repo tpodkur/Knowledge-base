@@ -50,3 +50,9 @@ class CleanMigrations:
             "TRUNCATE TABLE keyword;"
         )
         self.connection.commit()
+
+    def courseSecondLevelRelationTable(self):
+        self.cursor.execute(
+            "TRUNCATE TABLE course_second_level_relation;"
+        )
+        self.connection.commit()

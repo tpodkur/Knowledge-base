@@ -4,8 +4,6 @@ import string
 
 
 class WordsService:
-    connection = 0
-    cursor = 0
 
     def __init__(self):
         config = configparser.ConfigParser()

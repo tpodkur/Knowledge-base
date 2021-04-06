@@ -53,3 +53,18 @@ class ClassificationMigrations:
             "UNIQUE(grnti_number, parent_grnti_number, parent_parent_grnti_number));"
         )
         self.connection.commit()
+
+    def courseSecondLevelRelation(self):
+        self.cursor.execute(
+            "CREATE TABLE course_second_level_relation ("
+            "id                         SERIAL PRIMARY KEY,"
+            "course_id                  BIGINT NOT NULL,"
+            "category_id                BIGINT NOT NULL,"
+            "keywords_intersection      TEXT,"
+            "number_of_common_keywords  BIGINT,"
+            "estimation                 DOUBLE PRECISION,"
+            "FOREIGN KEY (course_id) REFERENCES course (id),"
+            "FOREIGN KEY (category_id) REFERENCES classification_second_level (id),"
+            "UNIQUE(course_id, category_id));"
+        )
+        self.connection.commit()
