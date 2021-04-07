@@ -84,3 +84,16 @@ class CoursesMigrations:
             "FOREIGN KEY (category_id) REFERENCES category (id));"
         )
         self.connection.commit()
+
+    def coursesRelation(self):
+        self.cursor.execute(
+            "CREATE TABLE courses_relation ("
+            "id                         SERIAL PRIMARY KEY,"
+            "left_course_id             BIGINT NOT NULL,"
+            "right_course_id            BIGINT NOT NULL,"
+            "estimation                 DOUBLE PRECISION,"
+            "FOREIGN KEY (left_course_id) REFERENCES course (id),"
+            "FOREIGN KEY (right_course_id) REFERENCES course (id),"
+            "UNIQUE(left_course_id, right_course_id));"
+        )
+        self.connection.commit()

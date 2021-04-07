@@ -12,8 +12,6 @@ class ClassificationComponent:
         courses = self.service.getAllCourses()
         categories = self.service.getAllSecondLevelCategories()
 
-        counter = 0
-
         for course in courses:
             courseKeywords = course[8]
             courseKeywords = courseKeywords.split(',')
@@ -30,10 +28,6 @@ class ClassificationComponent:
 
                 if estimation > 0:
                     self.service.insertCourseSecondLevelRelation(course[0], category[0], intersectionStr, len(intersection), estimation)
-
-            counter = counter + 1
-            if counter > 3:
-                break
 
     def calculateEstimationOfCourseBelongingToCategory(self, courseKeywords: [string], categoryKeywords: [string]):
         intersection = list(set(courseKeywords) & set(categoryKeywords))

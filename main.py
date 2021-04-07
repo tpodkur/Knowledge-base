@@ -10,6 +10,8 @@ from modules.keywords.WordsComponent import WordsComponent
 from modules.keywords.WordsService import WordsService
 from modules.classification.ClassificationComponent import ClassificationComponent
 from modules.classification.ClassificationService import ClassificationService
+from modules.relations.RelationsComponent import RelationsComponent
+from modules.relations.RelationsService import RelationsService
 import configparser
 
 
@@ -19,6 +21,7 @@ def migrate():
     # m.categoriesGroupsTable()
     # m.categoriesTable()
     # m.coursesTable()
+    # m.coursesRelation()
 
     # l = ClassificationMigrations()
     # l.firstLevelClassificationTable()
@@ -93,21 +96,21 @@ def assignKeywords(config):
 
     wordsComponent.findKeywordsIntersection()
 
+def classify():
+    classificationComponent = ClassificationComponent()
+
+    migrate()
+
+    classificationComponent.buildСlassification()
+    # classificationComponent.showClassificationResult()
+
 if __name__ == '__main__':
     config = configparser.ConfigParser()
     config.read("settings.ini")
 
-    classificationComponent = ClassificationComponent()
-    classificationService = ClassificationService()
+    relationsComponent = RelationsComponent()
+    relationsComponent.buildRelations()
 
-    # migrate()
-
-    # classificationComponent.buildСlassification()
-    classificationComponent.showClassificationResult()
-
-    # num = 4.559
-    # r_num = round(num, 2)
-    # print(r_num)
 
 
 
